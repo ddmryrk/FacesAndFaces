@@ -20,11 +20,11 @@ namespace Faces.WebMvc.RestClients
             _restClient = RestService.For<IOrderManagementApi>(httpClient);
         }
 
-        public async Task<OrderViewModel> GetOrder(Guid orderId)
+        public async Task<OrderViewModel> GetOrderById(Guid orderId)
         {
             try
             {
-                return await _restClient.GetOrder(orderId);
+                return await _restClient.GetOrderById(orderId);
             }
             catch (ApiException ex)
             {

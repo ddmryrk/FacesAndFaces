@@ -1,22 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GreenPipes;
 using MassTransit;
-using MassTransit.Definition;
 using Messaging.InterfacesConstants.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using OrdersApi.Messages;
 using OrdersApi.Messages.Consumers;
 using OrdersApi.Persistence;
 using OrdersApi.Services;
@@ -42,10 +34,33 @@ namespace OrdersApi
                 Configuration.GetConnectionString("OrdersContextConnection")
             ));
 
+            AddMassTransit(services);
+
+            services.AddHttpClient();
+            services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed((host) => true)
+                    );
+            });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrdersApi", Version = "v1" });
+            });
+        }
+
+        private static void AddMassTransit(IServiceCollection services)
+        {
             services.AddMassTransit(
                 c =>
                 {
                     c.AddConsumer<RegisterOrderCommandConsumer>();
+                    c.AddConsumer<OrderDispatchedEventConsumer>();
                 }
             );
 
@@ -66,8 +81,14 @@ namespace OrdersApi
                                e.PrefetchCount = 16;
                                e.UseMessageRetry(x => x.Interval(2, TimeSpan.FromSeconds(10)));
                                e.Consumer<RegisterOrderCommandConsumer>(busFactory);
-                           }
-                       );
+                           });
+                        config.ReceiveEndpoint(RabbitMqMassTransitConstants.OrderDispatchedServiceQueue,
+                           e =>
+                           {
+                               e.PrefetchCount = 16;
+                               e.UseMessageRetry(x => x.Interval(2, TimeSpan.FromSeconds(10)));
+                               e.Consumer<OrderDispatchedEventConsumer>(busFactory);
+                           });
 
                         config.ConfigureEndpoints(busFactory);
                     });
@@ -78,23 +99,6 @@ namespace OrdersApi
             });
 
             services.AddSingleton<IHostedService, BusService>();
-
-            services.AddHttpClient();
-            services.AddControllers();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()
-                    .SetIsOriginAllowed((host) => true)
-                    );
-            });
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrdersApi", Version = "v1" });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

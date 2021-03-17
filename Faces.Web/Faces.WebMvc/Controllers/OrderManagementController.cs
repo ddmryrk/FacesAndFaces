@@ -27,6 +27,20 @@ namespace Faces.WebMvc.Controllers
             return View(orders);
         }
 
+        [Route("/Details/{orderId}")]
+        public async Task<IActionResult> Details(string orderId)
+        {
+            var order = await _orderManagementApi.GetOrderById(Guid.Parse(orderId));
+            order.ImageString = ConvertAndFormatToString(order.ImageData);
+
+            foreach (var detail in order.OrderDetails)
+            {
+                detail.ImageString = ConvertAndFormatToString(detail.FaceData);
+            }
+
+            return View(order);
+        }
+
         private string ConvertAndFormatToString(byte[] imageData)
         {
             string imageBase64Data = Convert.ToBase64String(imageData);

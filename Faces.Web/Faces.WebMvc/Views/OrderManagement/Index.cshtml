@@ -16,7 +16,7 @@
         @foreach (var order in Model)
         {
             <tr class="clickable" onclick="location.href='@Url.Action("Details", "OrderManagement",
-                                                         new { orderId = order.OrderId }))'">
+                                                         new { orderId = order.OrderId })'">
                 <td>@order.OrderId</td>
                 <td>@order.UserEmail</td>
                 <td>

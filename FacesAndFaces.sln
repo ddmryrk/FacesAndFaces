@@ -21,6 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{05
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersApi", "Ordering\OrdersApi\OrdersApi.csproj", "{115A52C5-0644-47AF-A663-68D6A0BF18DB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerNotification", "CustomerNotification", "{6A897D04-76A6-48C9-B1AE-AF47059CFFA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "CustomerNotification\NotificationService\NotificationService.csproj", "{0EB4C9B1-D94F-48D3-8EA2-5818CFC104BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "CustomerNotification\EmailService\EmailService.csproj", "{64A6DAAF-B37E-4128-AADA-E7F364069FB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +53,14 @@ Global
 		{115A52C5-0644-47AF-A663-68D6A0BF18DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{115A52C5-0644-47AF-A663-68D6A0BF18DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{115A52C5-0644-47AF-A663-68D6A0BF18DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EB4C9B1-D94F-48D3-8EA2-5818CFC104BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB4C9B1-D94F-48D3-8EA2-5818CFC104BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB4C9B1-D94F-48D3-8EA2-5818CFC104BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB4C9B1-D94F-48D3-8EA2-5818CFC104BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A6DAAF-B37E-4128-AADA-E7F364069FB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A6DAAF-B37E-4128-AADA-E7F364069FB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A6DAAF-B37E-4128-AADA-E7F364069FB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A6DAAF-B37E-4128-AADA-E7F364069FB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,5 +74,7 @@ Global
 		{9170A072-32DD-4543-BBA3-033B8068AE20} = {29787E9E-1FCA-4B98-9E21-BAA478AA4346}
 		{7C1479A7-127D-4335-A4D8-8D699C7B455B} = {AECFFF81-2A3C-4C24-B66B-8143E3891145}
 		{115A52C5-0644-47AF-A663-68D6A0BF18DB} = {05F65FA8-B640-4D4C-A535-555D357D2C87}
+		{0EB4C9B1-D94F-48D3-8EA2-5818CFC104BB} = {6A897D04-76A6-48C9-B1AE-AF47059CFFA9}
+		{64A6DAAF-B37E-4128-AADA-E7F364069FB6} = {6A897D04-76A6-48C9-B1AE-AF47059CFFA9}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
@@ -23,5 +24,6 @@ namespace Faces.WebMvc.ViewModels
 
         public byte[] ImageData { get; set; }
         public string ImageString { get; internal set; }
+        public List<OrderDetailViewModel> OrderDetails { get; set; }
     }
 }

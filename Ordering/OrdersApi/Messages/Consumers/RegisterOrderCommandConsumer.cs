@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using MassTransit;
 using Messaging.InterfacesConstants.Commands;
+using Messaging.InterfacesConstants.Events;
 using Newtonsoft.Json;
 using OrdersApi.Models;
 using OrdersApi.Persistence;
@@ -35,6 +36,14 @@ namespace OrdersApi.Messages.Consumers
                 List<byte[]> faces = orderDetailsData.Item1;
                 var orderId = orderDetailsData.Item2;
                 SaveOrderDetails(orderId, faces);
+
+                await context.Publish<IOrderProcessedEvent>(new
+                {
+                    OrderId = orderId,
+                    Faces = faces,
+                    PictureUrl = result.PictureUrl,
+                    UserEmail = result.UserEmail
+                });
             }
         }
 
@@ -56,7 +65,7 @@ namespace OrdersApi.Messages.Consumers
             var byteContent = new ByteArrayContent(imageData);
             Tuple<List<byte[]>, Guid> orderDetailData = null;
             byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-            using (var response = await client.PostAsync($"http:6000/api/faces?orderId={orderId}", byteContent))
+            using (var response = await client.PostAsync($"http://localhost:6000/api/faces?orderId={orderId}", byteContent))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 orderDetailData = JsonConvert.DeserializeObject<Tuple<List<byte[]>, Guid>>(apiResponse);
@@ -68,7 +77,7 @@ namespace OrdersApi.Messages.Consumers
         {
             var order = _orderRepository.GetOrderAsync(orderId).Result;
 
-            if (order == null)
+            if (order != null)
             {
                 order.Status = Status.Processed;
 

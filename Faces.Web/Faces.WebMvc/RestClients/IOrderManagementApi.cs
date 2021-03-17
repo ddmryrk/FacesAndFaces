@@ -12,6 +12,6 @@ namespace Faces.WebMvc.RestClients
         Task<List<OrderViewModel>> GetOrders();
 
         [Get("/orders/{orderId}")]
-        Task<OrderViewModel> GetOrder(Guid orderId);
+        Task<OrderViewModel> GetOrderById(Guid orderId);
     }
 }

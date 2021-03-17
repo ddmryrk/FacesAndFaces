@@ -13,15 +13,16 @@ namespace FacesApi.Controllers
     [Route("api/[controller]")]
     public class FacesController : Controller
     {
-        [HttpPost]
-        public async Task<List<byte[]>> ReadFaces()
-        {
-            using var ms = new MemoryStream(2048);
-            await Request.Body.CopyToAsync(ms);
-            var faces = GetFaces(ms.ToArray());
-            return faces;
+        //[HttpPost]
+        //public async Task<List<byte[]>> ReadFaces()
+        //{
+        //    using var ms = new MemoryStream(2048);
+        //    await Request.Body.CopyToAsync(ms);
+        //    var faces = GetFaces(ms.ToArray());
+        //    return faces;
 
-        }
+        //}
+
         [HttpPost]
         public async Task<Tuple<List<byte[]>, Guid>> ReadFaces(Guid orderId)
         {
